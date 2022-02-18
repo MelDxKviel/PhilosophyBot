@@ -6,11 +6,21 @@ from aiogram import Bot, Dispatcher, executor, types
 from db import get_philosopher
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
+ADMIN_ID = os.environ["ADMIN_ID"]
 
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
+
+
+def auth(func):
+    async def wrapper(message):
+        if message['from']['id'] != int(ADMIN_ID):
+            return await message.reply("Вы не админ!", reply=False)
+        return await func(message)
+
+    return wrapper
 
 
 @dp.message_handler(commands=["start"])
