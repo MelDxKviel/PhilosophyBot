@@ -8,13 +8,13 @@ cursor = conn.cursor()
 
 def get_philosopher(philosopher: str) -> str | None:
     try:
-        cursor.execute(f"SELECT bio FROM philosophers "
+        cursor.execute(f"SELECT bio, image_link FROM philosophers "
                        f"WHERE name LIKE '%{philosopher}%'")
         result = cursor.fetchall()
         if len(result) > 1:
             return None
         else:
-            result = result[0][0]
+            result = result[0]
     except (TypeError, IndexError):
         return None
     return result
