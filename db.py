@@ -6,12 +6,16 @@ conn = sqlite3.connect("db.sqlite3")
 cursor = conn.cursor()
 
 
-def get_philosopher(philosopher: str):
-    cursor.execute(f"SELECT bio FROM philosophers "
-                   f"WHERE name LIKE '%{philosopher}%'")
+def get_philosopher(philosopher: str) -> str | None:
     try:
-        result = cursor.fetchone()[0]
-    except TypeError:
+        cursor.execute(f"SELECT bio FROM philosophers "
+                       f"WHERE name LIKE '%{philosopher}%'")
+        result = cursor.fetchall()
+        if len(result) > 1:
+            return None
+        else:
+            result = result[0][0]
+    except (TypeError, IndexError):
         return None
     return result
 
