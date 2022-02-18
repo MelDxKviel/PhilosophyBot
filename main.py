@@ -30,6 +30,14 @@ async def start(message: types.Message):
                          " трудов, нажав на соответствующие кнопки.")
 
 
+@dp.message_handler(commands=["admin"])
+@auth
+async def admin_menu(message: types.Message):
+    await message.answer("Привет, админ!")
+
+    # TODO: Добавить функционал добавлени философов, их цитат и трудов
+
+
 @dp.message_handler()
 async def search_philosopher(message: types.Message):
     bio = get_philosopher(message.text)
