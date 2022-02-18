@@ -40,11 +40,20 @@ async def admin_menu(message: types.Message):
 
 @dp.message_handler()
 async def search_philosopher(message: types.Message):
-    bio = get_philosopher(message.text)
-    if bio is not None:
-        await message.answer(bio)
-    elif bio is None:
-        await message.answer("Философ не найден")
+    data = get_philosopher(message.text.capitalize())
+    if data is not None:
+        bio = data[0]
+        image_link = data[1]
+        buttons = [
+            types.InlineKeyboardButton(text="Цитаты", callback_data="Цитаты"),
+            types.InlineKeyboardButton(text="Труды", callback_data="Труды"),
+            types.InlineKeyboardButton(text="Википедия", url="https://ru.wikipedia.org")
+        ]
+        keyboard = types.InlineKeyboardMarkup(row_width=2)
+        keyboard.add(*buttons)
+        await message.answer(f"{bio}[.]({image_link})", reply_markup=keyboard, parse_mode="Markdown")
+    elif data is None:
+        await message.answer("Философ не найден. Попробуйте ещё раз.")
 
 
 def main() -> None:
