@@ -1,6 +1,4 @@
 import sqlite3
-from typing import List
-
 
 conn = sqlite3.connect("db.sqlite3")
 cursor = conn.cursor()
@@ -20,7 +18,7 @@ def get_philosopher(philosopher: str) -> str | None:
     return result
 
 
-def get_quotes(philosopher_id: int) -> List:
+def get_quotes(philosopher_id: int) -> list:
     cursor.execute(f"SELECT quote_text FROM quotes "
                    f"WHERE philosopher_id = {philosopher_id}")
     query = cursor.fetchall()
