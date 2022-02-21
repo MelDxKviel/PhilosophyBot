@@ -45,13 +45,13 @@ async def search_philosopher(message: types.Message):
         bio = data[0]
         image_link = data[1]
         buttons = [
-            types.InlineKeyboardButton(text="Цитаты", callback_data="Цитаты"),
-            types.InlineKeyboardButton(text="Труды", callback_data="Труды"),
-            types.InlineKeyboardButton(text="Википедия", url="https://ru.wikipedia.org")
+            types.InlineKeyboardButton(text="Цитаты", callback_data=f"quotes {data['id']}"),
+            types.InlineKeyboardButton(text="Труды", callback_data=f"works {data['id']}"),
+            types.InlineKeyboardButton(text="Википедия", url=data["wiki_link"])
         ]
         keyboard = types.InlineKeyboardMarkup(row_width=2)
         keyboard.add(*buttons)
-        await message.answer(f"{bio}[.]({image_link})", reply_markup=keyboard, parse_mode="Markdown")
+        await message.answer(f"{data['bio']}[.]({data['image_link']}", reply_markup=keyboard, parse_mode="Markdown")
     elif data is None:
         await message.answer("Философ не найден. Попробуйте ещё раз.")
 
